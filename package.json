@@ -9,6 +9,7 @@
     "preview": "astro preview"
   },
   "devDependencies": {
+    "@supabase/supabase-js": "^1.35.3",
     "astro": "^1.0.0-beta.40"
   }
 }
