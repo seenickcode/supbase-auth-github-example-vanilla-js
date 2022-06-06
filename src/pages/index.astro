@@ -65,6 +65,9 @@
 		var supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 		window.userToken = null
 
+		console.log(supabase.auth.user())
+		console.log(supabase.auth.session())
+
 		document.addEventListener('DOMContentLoaded', function (event) {
 			var signUpForm = document.querySelector('#sign-up')
 			signUpForm.onsubmit = signUpSubmitted.bind(signUpForm)
