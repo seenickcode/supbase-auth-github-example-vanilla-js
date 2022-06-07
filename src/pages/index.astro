@@ -36,7 +36,14 @@
 						<h3>OAuth Log In</h3>
 						<a href="#" id="github-login">Login with Github</a>
 				</form>
-		</div>
+			</div>
+			<div class='section'>
+				<form id='magiclink-login'>
+					<h3>Magic Link Log In</h3>
+					<label>Email</label><input type='email' name='email' />
+					<input type='submit'>
+				</form>
+			</div>
 			<div class='section'>
 					<form id='validate'>
 							<h3>Access Token</h3>
@@ -83,6 +90,9 @@
 
 			var githubLogInButton = document.querySelector('#github-login')
 			githubLogInButton.onclick = githubLogInSubmitted.bind(githubLogInButton)
+
+			var maglinkForm = document.querySelector('#magiclink-login')
+			maglinkForm.onsubmit = magiclinkLogInSubmitted.bind(maglinkForm)
 		})
 
 		const signUpSubmitted = (event) => {
@@ -93,10 +103,10 @@
 			supabase.auth
 				.signUp({ email, password })
 				.then((response) => {
-					response.error ? alert(response.error.message) : setToken(response)
+					response.error ? alert('resp err: ' + response.error.message) : setToken(response)
 				})
 				.catch((err) => {
-					alert(err)
+					alert('catching err: ' + err)
 				})
 		}
 
@@ -140,10 +150,24 @@
 			supabase.auth.signIn({
 				provider: 'github' 
 			}).then((response) => {
-				response.error ? alert(response.error.message) : setToken(response)
+				response.error ? alert('github login: ' + response.error.message) : setToken(response)
 			}).catch((err) => {
-				alert(JSON.stringify(err))
+				alert('github login error CAUGHT: ' + JSON.stringify(err))
 			});
+		}
+
+		const magiclinkLogInSubmitted = (event) => {
+			event.preventDefault()
+			const email = event.target[0].value
+
+			supabase.auth
+				.signIn({ email })
+				.then((response) => {
+					response.error ? alert('magiclink resp err: ' + response.error.message) : setToken(response)
+				})
+				.catch((err) => {
+					alert('magiclink catching err: ' + err)
+				})
 		}
 
 		function setToken(response) {
